@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>DARK SMS • OPERATOR</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
     body {
       min-height: 100vh;
@@ -85,7 +81,7 @@
       50%      { background-position: 100% 50%; }
     }
 
-    /* Агрессивный жёсткий взрыв */
+    /* Агрессивный взрыв */
     body.explode::after {
       content: '';
       position: fixed;
@@ -137,19 +133,18 @@
 <div class="container" id="container">
   <h1 class="title">DARK SMS</h1>
   <div class="subtitle">OPERATOR ONLINE</div>
-  <div class="btn" id="btn">OPERATOR</div>
+  <a href="https://t.me/electrum_store" target="_blank" class="btn" id="btn">OPERATOR</a>
   <div class="link-info">t.me/electrum_store • HR Electrum PL</div>
 </div>
 
 <script>
-  document.getElementById('btn').addEventListener('click', function() {
+  // Взрыв при клике (остаётся, но теперь кнопка — это <a>, поэтому JS только для эффекта)
+  document.getElementById('btn').addEventListener('click', function(e) {
+    // e.preventDefault() убираем — пусть браузер сразу открывает ссылку
     const container = document.getElementById('container');
     document.body.classList.add('explode');
     container.classList.add('explode');
-
-    setTimeout(() => {
-      window.open('https://t.me/electrum_store', '_blank');
-    }, 2800);
+    // Эффект длится ~2.8 секунды, но переход происходит мгновенно
   });
 </script>
 
