@@ -2,133 +2,118 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>DARK SMS • OPERATOR</title>
   <style>
-    :root {
-      --fire: #ff3d00;
-      --flame: #ffaa00;
-      --glow: #ffeb3b;
-    }
-
     * { margin:0; padding:0; box-sizing:border-box; }
-
+    
     body {
       min-height: 100vh;
-      background: #0a0005 url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=90') center/cover fixed;
+      background: #000 url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=90') center/cover fixed;
       font-family: 'Courier New', monospace;
-      overflow: hidden;
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       position: relative;
     }
 
     .container {
       text-align: center;
-      position: relative;
-      z-index: 2;
+      width: 100%;
+      padding: 20px;
+      max-width: 540px;
     }
 
     .title {
-      font-size: clamp(6rem, 22vw, 18rem);
+      font-size: clamp(4.8rem, 18vw, 9.5rem);
       font-weight: 900;
-      letter-spacing: 0.05em;
-      color: #fff;
-      text-shadow: 
-        0 0 40px #00ffff,
-        0 0 80px #ff00aa,
-        0 0 120px var(--fire);
-      animation: titleGlow 4s ease-in-out infinite alternate;
-    }
-
-    @keyframes titleGlow {
-      from { text-shadow: 0 0 40px #00ffff, 0 0 80px #ff00aa, 0 0 120px var(--fire); }
-      to   { text-shadow: 0 0 60px #00ffff, 0 0 110px #ff00aa, 0 0 160px var(--glow); }
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 40px #00ffff, 0 0 80px #ff00aa, 0 0 120px #ff2200;
+      margin-bottom: 20px;
     }
 
     .subtitle {
-      font-size: clamp(2.2rem, 8vw, 5.5rem);
-      margin: 25px 0 80px;
-      color: #ff00aa;
-      text-shadow: 0 0 50px #ff00aa;
-      letter-spacing: 0.5em;
+      font-size: clamp(1.8rem, 7vw, 3.2rem);
+      margin-bottom: 60px;
+      color: #ff0044;
+      text-shadow: 0 0 40px #ff0044;
+      letter-spacing: 0.4em;
     }
 
     .btn {
-      position: relative;
-      padding: 34px 120px;
-      font-size: clamp(3rem, 10vw, 7.5rem);
+      width: 92%;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 28px 40px;
+      font-size: clamp(2.4rem, 8.5vw, 4.2rem);
       font-weight: 900;
-      color: white;
       text-transform: uppercase;
-      letter-spacing: 0.45em;
-      background: linear-gradient(135deg, var(--fire), var(--flame), var(--glow), var(--fire));
-      background-size: 300% 300%;
-      border: 7px solid #ffeb3b;
-      border-radius: 40px;
-      box-shadow: 0 0 70px var(--fire), 0 0 140px var(--flame), inset 0 0 40px rgba(255,255,255,0.4);
+      letter-spacing: 0.4em;
+      color: #fff;
+      background: linear-gradient(135deg, #ff2200, #ff6600, #ffaa00);
+      border: 6px solid #ffdd00;
+      border-radius: 30px;
+      box-shadow: 0 0 60px #ff2200, 0 0 120px #ff6600;
       cursor: pointer;
-      animation: flameMove 6s linear infinite, pulseBtn 2.8s ease-in-out infinite;
-      transition: all 0.4s;
+      transition: all 0.3s;
     }
 
-    .btn:hover {
-      transform: scale(1.12) translateY(-8px);
-      box-shadow: 0 0 120px #ffeb3b, 0 0 200px var(--fire);
+    .btn:active {
+      transform: scale(0.92);
     }
 
-    @keyframes flameMove {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes pulseBtn {
-      0%, 100% { transform: scale(1); }
-      50%      { transform: scale(1.06); }
-    }
-
-    /* КРАСИВЫЙ ЭФФЕКТ ВЗРЫВА И СГОРАНИЯ */
-    body.burning::after {
+    /* === ЖЁСТКИЙ АГРЕССИВНЫЙ ВЗРЫВ === */
+    body.explode::after {
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, #ffeb3b 10%, #ffaa00 30%, #ff3d00 50%, transparent 80%);
-      opacity: 0;
-      z-index: 20;
+      background: radial-gradient(circle at center, #ffff00 5%, #ff8800 25%, #ff2200 45%, #000 75%);
+      z-index: 100;
+      animation: hardExplosion 2.8s forwards;
       pointer-events: none;
-      animation: fireExplosion 3s forwards;
     }
 
-    @keyframes fireExplosion {
-      0%   { opacity: 0; transform: scale(0.3); }
-      15%  { opacity: 1; transform: scale(1.6); }
-      50%  { opacity: 0.95; transform: scale(2.4); }
-      100% { opacity: 0; transform: scale(4.5); }
+    @keyframes hardExplosion {
+      0%   { opacity: 0; transform: scale(0.2); }
+      12%  { opacity: 1; transform: scale(1.8); }
+      45%  { opacity: 0.95; transform: scale(3.2); }
+      100% { opacity: 0; transform: scale(5.5); }
     }
 
-    body.burning .container {
-      animation: meltAndBurn 3s forwards;
+    body.explode {
+      animation: hardShake 0.9s cubic-bezier(0.36,0.07,0.19,0.97) both;
     }
 
-    @keyframes meltAndBurn {
-      0%   { filter: brightness(1) contrast(1); transform: scale(1); }
-      40%  { filter: brightness(0.4) contrast(2.5) hue-rotate(30deg); transform: scale(1.1) translateY(-20px); }
-      100% { filter: brightness(0) contrast(0); transform: scale(0.6) translateY(120px); opacity: 0; }
+    @keyframes hardShake {
+      10%, 90% { transform: translate3d(-6px, 0, 0); }
+      20%, 80% { transform: translate3d(8px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-12px, 0, 0); }
+      40%, 60% { transform: translate3d(12px, 0, 0); }
+    }
+
+    .container.explode {
+      animation: meltHard 2.8s forwards;
+    }
+
+    @keyframes meltHard {
+      0%   { filter: brightness(1); transform: scale(1); }
+      35%  { filter: brightness(0.3) contrast(3) hue-rotate(50deg); transform: scale(1.15) translateY(-30px); }
+      100% { filter: brightness(0) contrast(0); transform: scale(0.5) translateY(150px); opacity: 0; }
     }
 
     .link-info {
-      margin-top: 70px;
-      font-size: 1.7rem;
+      margin-top: 50px;
+      font-size: 1.4rem;
       color: #00ffff;
-      text-shadow: 0 0 30px #00ffff;
+      text-shadow: 0 0 20px #00ffff;
     }
   </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="container">
   <h1 class="title">DARK SMS</h1>
   <div class="subtitle">OPERATOR ONLINE</div>
   <div class="btn" id="btn">OPERATOR</div>
@@ -137,11 +122,13 @@
 
 <script>
   document.getElementById('btn').addEventListener('click', function() {
-    document.body.classList.add('burning');
+    const container = document.getElementById('container');
+    document.body.classList.add('explode');
+    container.classList.add('explode');
 
     setTimeout(() => {
       window.open('https://t.me/electrum_store', '_blank');
-    }, 3000);
+    }, 2900);
   });
 </script>
 
