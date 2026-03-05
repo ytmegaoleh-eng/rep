@@ -21,21 +21,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
 
-    /* Glitch overlay для атмосферы */
+    /* Скан-линии + лёгкий шум */
     body::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(transparent 50%, rgba(255,0,255,0.03) 50%);
-      background-size: 100% 4px;
+      background: repeating-linear-gradient(transparent 0%, transparent 2px, rgba(255,0,255,0.025) 2px, rgba(255,0,255,0.025) 4px);
       pointer-events: none;
-      animation: scanline 8s linear infinite;
+      animation: scan 10s linear infinite;
       mix-blend-mode: screen;
+      z-index: 1;
     }
 
-    @keyframes scanline {
+    @keyframes scan {
       0% { transform: translateY(-100%); }
       100% { transform: translateY(100%); }
     }
@@ -43,107 +44,145 @@
     .container {
       text-align: center;
       position: relative;
-      z-index: 1;
+      z-index: 2;
       padding: 20px;
-      max-width: 90%;
+      max-width: 95%;
     }
 
     .title {
-      font-size: clamp(3rem, 12vw, 8rem);
-      font-weight: bold;
-      letter-spacing: 0.1em;
+      font-size: clamp(4rem, 15vw, 10rem);
+      font-weight: 900;
+      letter-spacing: 0.15em;
       color: #fff;
       text-shadow: 
-        0 0 10px #0ff,
-        0 0 20px #0ff,
-        0 0 40px #f0f,
-        0 0 80px #f0f,
-        0 0 120px #f0f;
-      animation: glitch 4s infinite, glow 3s ease-in-out infinite alternate;
+        0 0 8px #0ff,
+        0 0 16px #0ff,
+        0 0 32px #f0f,
+        0 0 64px #f0f,
+        0 0 100px #f0f;
+      animation: glitch 3.5s infinite alternate, glow 2.5s ease-in-out infinite alternate;
+      user-select: none;
     }
 
     @keyframes glitch {
-      0% { text-shadow: 2px 2px #f0f, -2px -2px #0ff; }
-      10% { text-shadow: -2px 2px #f0f, 2px -2px #0ff; }
-      20% { text-shadow: 2px -2px #0ff, -2px 2px #f0f; }
-      30%, 100% { text-shadow: none; }
+      0%, 100% { transform: translate(0); }
+      2%   { transform: translate(-2px, 2px); }
+      4%   { transform: translate(2px, -2px); }
+      6%   { transform: translate(-1px, 1px); }
+      8%   { transform: translate(1px, -1px); }
+      10%, 100% { transform: translate(0); }
     }
 
     @keyframes glow {
-      from { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #f0f; }
-      to   { text-shadow: 0 0 20px #0ff, 0 0 40px #f0f, 0 0 80px #f0f; }
+      from { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #f0f, 0 0 80px #f0f; }
+      to   { text-shadow: 0 0 20px #0ff, 0 0 40px #f0f, 0 0 80px #f0f, 0 0 120px #f0f; }
     }
 
     .subtitle {
-      font-size: clamp(1.5rem, 6vw, 3rem);
-      margin: 20px 0 40px;
-      color: #ff00aa;
-      text-shadow: 0 0 15px #ff00aa;
-      letter-spacing: 0.3em;
+      font-size: clamp(1.8rem, 7vw, 3.5rem);
+      margin: 20px 0 50px;
+      color: #ff0088;
+      text-shadow: 0 0 20px #ff0088, 0 0 40px #ff0088;
+      letter-spacing: 0.4em;
+      animation: flicker 4s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+      20%, 24%, 55% { opacity: 0.6; }
     }
 
     .btn {
       display: inline-block;
-      padding: 20px 60px;
-      font-size: clamp(1.8rem, 5vw, 3rem);
+      padding: 22px 70px;
+      font-size: clamp(2rem, 6vw, 4rem);
       font-weight: bold;
       color: #fff;
-      background: linear-gradient(45deg, #0ff, #f0f, #0ff);
-      background-size: 400%;
-      border: 3px solid #0ff;
-      border-radius: 15px;
+      background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
+      background-size: 300% 300%;
+      border: 4px solid #00ffff;
+      border-radius: 20px;
       text-decoration: none;
       text-transform: uppercase;
-      letter-spacing: 0.2em;
-      box-shadow: 0 0 30px #0ff, inset 0 0 20px rgba(0,255,255,0.5);
-      transition: all 0.4s;
+      letter-spacing: 0.3em;
+      box-shadow: 0 0 40px #00ffff, inset 0 0 25px rgba(0,255,255,0.6);
+      transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
-      animation: btnPulse 3s infinite;
+      animation: pulse 2.8s infinite;
+      cursor: pointer;
     }
 
     .btn:hover {
       transform: scale(1.08);
-      box-shadow: 0 0 60px #f0f, 0 0 100px #0ff;
-      animation: none;
+      box-shadow: 0 0 80px #ff00ff, 0 0 120px #00ffff;
+      animation-play-state: paused;
     }
 
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.04); }
+    }
+
+    /* Shine эффект */
     .btn::before {
       content: '';
       position: absolute;
       top: -50%;
-      left: -50%;
+      left: -100%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+      background: linear-gradient(transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-25deg);
       opacity: 0;
       transition: opacity 0.6s;
     }
 
     .btn:hover::before {
       opacity: 1;
-      animation: shine 1.5s;
-    }
-
-    @keyframes btnPulse {
-      0%, 100% { transform: scale(1); }
-      50%      { transform: scale(1.05); }
-    }
-
-    @keyframes shine {
-      0% { transform: translateX(-100%) translateY(-100%); }
-      100% { transform: translateX(100%) translateY(100%); }
+      left: 100%;
+      transition: left 1.2s ease;
     }
 
     .link-info {
-      margin-top: 30px;
-      font-size: 1.2rem;
-      color: #0ff;
-      opacity: 0.8;
+      margin-top: 40px;
+      font-size: 1.4rem;
+      color: #00ffff;
+      opacity: 0.85;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    /* Эффект сгорания после клика */
+    body.burn::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,80,0,0.8) 0%, rgba(200,0,0,0.6) 30%, transparent 70%);
+      pointer-events: none;
+      z-index: 10;
+      animation: burn 2.5s forwards;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes burn {
+      0%   { opacity: 0; transform: scale(0.5); filter: blur(0px); }
+      20%  { opacity: 1; transform: scale(1.2); filter: blur(2px); }
+      60%  { opacity: 0.9; transform: scale(1.5); filter: blur(8px); }
+      100% { opacity: 0; transform: scale(2.5); filter: blur(30px); }
+    }
+
+    body.burn .container {
+      animation: meltdown 2.5s forwards;
+    }
+
+    @keyframes meltdown {
+      0%   { filter: brightness(1) contrast(1); transform: translate(0,0); }
+      40%  { filter: brightness(0.4) contrast(2) hue-rotate(90deg); transform: translate(0, -10px); }
+      100% { filter: brightness(0) contrast(0); transform: translate(0, 80px); opacity: 0; }
     }
 
     @media (max-width: 600px) {
-      .btn { padding: 15px 40px; font-size: 2rem; }
+      .btn { padding: 18px 50px; font-size: 2.5rem; }
     }
   </style>
 </head>
@@ -153,12 +192,24 @@
   <h1 class="title">DARK SMS</h1>
   <div class="subtitle">OPERATOR ONLINE</div>
   
-  <a href="https://t.me/electrum_store" target="_blank" class="btn">
-    OPERATOR
-  </a>
+  <div class="btn" id="operatorBtn">OPERATOR</div>
 
-  <div class="link-info" HR Electrum PL</div>
+  <div class="link-info">t.me/electrum_store • HR Electrum PL</div>
 </div>
 
+<script>
+  document.getElementById('operatorBtn').addEventListener('click', function(e) {
+    e.preventDefault(); // предотвращаем мгновенный переход
+
+    // Запускаем эффект сгорания
+    document.body.classList.add('burn');
+
+    // Через 2.5 секунды переходим в Telegram
+    setTimeout(() => {
+      window.location.href = 'https://t.me/electrum_store';
+    }, 2500);
+  });
+</script>
+
 </body>
-</html>o
+</html>
