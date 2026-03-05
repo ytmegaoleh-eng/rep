@@ -5,16 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>DARK SMS • OPERATOR</title>
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       min-height: 100vh;
-      background: #000 url('bgJPG') center/cover no-repeat fixed;
+      background: #000 url('./bg.jpg') center/cover no-repeat fixed;
       font-family: 'Courier New', monospace;
-      color: white;
+      color: #fff;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
       overflow: hidden;
       position: relative;
     }
@@ -22,63 +27,131 @@
     .container {
       text-align: center;
       width: 100%;
-      padding: 20px;
-      max-width: 540px;
+      max-width: 500px;
+      padding: 15px 20px;
+      z-index: 2;
     }
 
     .title {
-      font-size: clamp(4.8rem, 19vw, 10rem);
+      font-size: clamp(4.5rem, 16vw, 9rem);
       font-weight: 900;
-      letter-spacing: 0.06em;
-      text-shadow: 0 0 50px #00ffff, 0 0 90px #ff00aa, 0 0 140px #ff2200;
-      margin-bottom: 15px;
+      letter-spacing: 0.05em;
+      text-shadow: 
+        0 0 30px #00ffff,
+        0 0 60px #ff00aa,
+        0 0 100px #ff2200;
+      margin-bottom: 12px;
+      line-height: 0.9;
     }
 
     .subtitle {
-      font-size: clamp(1.9rem, 7.5vw, 3.4rem);
-      margin-bottom: 65px;
+      font-size: clamp(1.6rem, 6vw, 2.8rem);
+      margin-bottom: 50px;
       color: #ff0044;
-      text-shadow: 0 0 45px #ff0044;
-      letter-spacing: 0.45em;
+      text-shadow: 0 0 35px #ff0044;
+      letter-spacing: 0.35em;
     }
 
     .btn {
-      width: 92%;
-      max-width: 420px;
-      margin: 0 auto 30px;
-      padding: 32px 40px;
-      font-size: clamp(2.6rem, 9vw, 4.5rem);
+      width: 90%;
+      max-width: 380px;
+      margin: 0 auto 40px;
+      padding: 28px 30px;
+      font-size: clamp(2.4rem, 8vw, 4rem);
       font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.42em;
+      letter-spacing: 0.4em;
       color: #fff;
       background: linear-gradient(135deg, #ff2200, #ff6600, #ffaa00);
-      border: 7px solid #ffdd00;
-      border-radius: 32px;
-      box-shadow: 0 0 70px #ff2200, 0 0 140px #ff6600;
+      background-size: 300%;
+      border: 6px solid #ffdd00;
+      border-radius: 28px;
+      box-shadow: 
+        0 0 50px #ff2200,
+        0 0 100px #ff6600,
+        inset 0 0 30px rgba(255,255,255,0.3);
       cursor: pointer;
+      animation: flamePulse 5s ease-in-out infinite;
+      transition: all 0.25s;
     }
 
     .btn:active {
-      transform: scale(0.9);
+      transform: scale(0.92);
+      box-shadow: 0 0 80px #ffaa00, 0 0 150px #ff2200;
     }
 
-    /* ЖЁСТКИЙ АГРЕССИВНЫЙ ВЗРЫВ */
+    @keyframes flamePulse {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+
+    /* Агрессивный жёсткий взрыв */
     body.explode::after {
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, #ffff00 8%, #ff8800 28%, #ff2200 50%, #000 80%);
+      background: radial-gradient(circle at center, #ffff00 10%, #ff8800 30%, #ff2200 55%, #000 85%);
       z-index: 100;
-      animation: hardExplosion 2.9s forwards;
+      animation: brutalExplosion 2.8s forwards;
       pointer-events: none;
     }
 
-    @keyframes hardExplosion {
-      0%   { opacity: 0; transform: scale(0.1); }
-      14%  { opacity: 1; transform: scale(2.1); }
-      48%  { opacity: 0.97; transform: scale(3.6); }
-      100% { opacity: 0; transform: scale(6); }
+    @keyframes brutalExplosion {
+      0%   { opacity: 0; transform: scale(0.15); }
+      15%  { opacity: 1; transform: scale(2.0); }
+      50%  { opacity: 0.98; transform: scale(3.8); }
+      100% { opacity: 0; transform: scale(6.5); }
     }
 
     body.explode {
+      animation: brutalShake 0.9s cubic-bezier(0.36,0.07,0.19,0.97) both;
+    }
+
+    @keyframes brutalShake {
+      10%, 90% { transform: translate3d(-10px, 0, 0); }
+      20%, 80% { transform: translate3d(12px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-16px, 0, 0); }
+      40%, 60% { transform: translate3d(16px, 0, 0); }
+    }
+
+    .container.explode {
+      animation: meltAggressive 2.8s forwards;
+    }
+
+    @keyframes meltAggressive {
+      0%   { filter: brightness(1) contrast(1); transform: scale(1); }
+      40%  { filter: brightness(0.2) contrast(4) hue-rotate(70deg); transform: scale(1.2) translateY(-50px); }
+      100% { filter: brightness(0) contrast(0); transform: scale(0.4) translateY(220px); opacity: 0; }
+    }
+
+    .link-info {
+      font-size: 1.3rem;
+      color: #00ffff;
+      text-shadow: 0 0 20px #00ffff;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="container">
+  <h1 class="title">DARK SMS</h1>
+  <div class="subtitle">OPERATOR ONLINE</div>
+  <div class="btn" id="btn">OPERATOR</div>
+  <div class="link-info">t.me/electrum_store • HR Electrum PL</div>
+</div>
+
+<script>
+  document.getElementById('btn').addEventListener('click', function() {
+    const container = document.getElementById('container');
+    document.body.classList.add('explode');
+    container.classList.add('explode');
+
+    setTimeout(() => {
+      window.open('https://t.me/electrum_store', '_blank');
+    }, 2800);
+  });
+</script>
+
+</body>
+</html>
