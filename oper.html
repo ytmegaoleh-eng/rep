@@ -6,12 +6,13 @@
   <title>DARK SMS • OPERATOR</title>
   <style>
     :root {
-      --fire1: #ff3d00;
-      --fire2: #ffaa00;
-      --fire3: #ffeb3b;
+      --fire: #ff3d00;
+      --flame: #ffaa00;
+      --glow: #ffeb3b;
     }
 
     * { margin:0; padding:0; box-sizing:border-box; }
+
     body {
       min-height: 100vh;
       background: #0a0005 url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=90') center/cover fixed;
@@ -23,169 +24,125 @@
       position: relative;
     }
 
-    canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 1;
-      pointer-events: none;
-    }
-
     .container {
-      position: relative;
-      z-index: 10;
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
 
     .title {
-      font-size: clamp(6rem, 20vw, 16rem);
+      font-size: clamp(6rem, 22vw, 18rem);
       font-weight: 900;
-      letter-spacing: 0.1em;
-      color: transparent;
-      background: linear-gradient(90deg, #fff, #00ffff, #ff00aa, #fff);
-      -webkit-background-clip: text;
-      text-shadow: 0 0 80px #ff3d00, 0 0 140px #ffaa00;
-      animation: titleBurn 4s infinite alternate;
+      letter-spacing: 0.05em;
+      color: #fff;
+      text-shadow: 
+        0 0 40px #00ffff,
+        0 0 80px #ff00aa,
+        0 0 120px var(--fire);
+      animation: titleGlow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes titleGlow {
+      from { text-shadow: 0 0 40px #00ffff, 0 0 80px #ff00aa, 0 0 120px var(--fire); }
+      to   { text-shadow: 0 0 60px #00ffff, 0 0 110px #ff00aa, 0 0 160px var(--glow); }
     }
 
     .subtitle {
-      font-size: clamp(2.2rem, 9vw, 6rem);
-      margin: 20px 0 70px;
+      font-size: clamp(2.2rem, 8vw, 5.5rem);
+      margin: 25px 0 80px;
       color: #ff00aa;
       text-shadow: 0 0 50px #ff00aa;
-      letter-spacing: 0.6em;
+      letter-spacing: 0.5em;
     }
 
     .btn {
       position: relative;
-      padding: 32px 110px;
-      font-size: clamp(2.8rem, 9vw, 7rem);
+      padding: 34px 120px;
+      font-size: clamp(3rem, 10vw, 7.5rem);
       font-weight: 900;
       color: white;
       text-transform: uppercase;
-      letter-spacing: 0.5em;
-      background: linear-gradient(135deg, #ff3d00, #ffaa00, #ffeb3b);
-      border: 6px solid #ffeb3b;
-      border-radius: 35px;
-      box-shadow: 0 0 80px #ff3d00, 0 0 160px #ffaa00;
+      letter-spacing: 0.45em;
+      background: linear-gradient(135deg, var(--fire), var(--flame), var(--glow), var(--fire));
+      background-size: 300% 300%;
+      border: 7px solid #ffeb3b;
+      border-radius: 40px;
+      box-shadow: 0 0 70px var(--fire), 0 0 140px var(--flame), inset 0 0 40px rgba(255,255,255,0.4);
       cursor: pointer;
-      transition: all 0.3s;
-      z-index: 20;
+      animation: flameMove 6s linear infinite, pulseBtn 2.8s ease-in-out infinite;
+      transition: all 0.4s;
     }
 
     .btn:hover {
-      transform: scale(1.15) translateY(-10px);
-      box-shadow: 0 0 140px #ffeb3b, 0 0 220px #ff3d00;
+      transform: scale(1.12) translateY(-8px);
+      box-shadow: 0 0 120px #ffeb3b, 0 0 200px var(--fire);
     }
 
-    /* Экран трясётся при взрыве */
-    body.exploding {
-      animation: shake 0.8s cubic-bezier(.36,.07,.19,.97) both;
+    @keyframes flameMove {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    @keyframes shake {
-      10%, 90% { transform: translate3d(-4px, 0, 0); }
-      20%, 80% { transform: translate3d(6px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
-      40%, 60% { transform: translate3d(8px, 0, 0); }
+    @keyframes pulseBtn {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.06); }
+    }
+
+    /* КРАСИВЫЙ ЭФФЕКТ ВЗРЫВА И СГОРАНИЯ */
+    body.burning::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #ffeb3b 10%, #ffaa00 30%, #ff3d00 50%, transparent 80%);
+      opacity: 0;
+      z-index: 20;
+      pointer-events: none;
+      animation: fireExplosion 3s forwards;
+    }
+
+    @keyframes fireExplosion {
+      0%   { opacity: 0; transform: scale(0.3); }
+      15%  { opacity: 1; transform: scale(1.6); }
+      50%  { opacity: 0.95; transform: scale(2.4); }
+      100% { opacity: 0; transform: scale(4.5); }
+    }
+
+    body.burning .container {
+      animation: meltAndBurn 3s forwards;
+    }
+
+    @keyframes meltAndBurn {
+      0%   { filter: brightness(1) contrast(1); transform: scale(1); }
+      40%  { filter: brightness(0.4) contrast(2.5) hue-rotate(30deg); transform: scale(1.1) translateY(-20px); }
+      100% { filter: brightness(0) contrast(0); transform: scale(0.6) translateY(120px); opacity: 0; }
+    }
+
+    .link-info {
+      margin-top: 70px;
+      font-size: 1.7rem;
+      color: #00ffff;
+      text-shadow: 0 0 30px #00ffff;
     }
   </style>
 </head>
 <body>
 
-<canvas id="canvas"></canvas>
-
 <div class="container">
   <h1 class="title">DARK SMS</h1>
   <div class="subtitle">OPERATOR ONLINE</div>
   <div class="btn" id="btn">OPERATOR</div>
+  <div class="link-info">t.me/electrum_store • HR Electrum PL</div>
 </div>
 
 <script>
-// ==================== ЧАСТИЦЫ ОГНЯ ====================
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+  document.getElementById('btn').addEventListener('click', function() {
+    document.body.classList.add('burning');
 
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-class Particle {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.size = Math.random() * 9 + 4;
-    this.speedX = Math.random() * 14 - 7;
-    this.speedY = Math.random() * -18 - 8;
-    this.gravity = 0.25;
-    this.life = 110;
-    this.hue = Math.random() * 40 + 10; // оранжево-красный спектр
-  }
-  update() {
-    this.speedY += this.gravity;
-    this.x += this.speedX;
-    this.y += this.speedY;
-    this.life--;
-    this.size *= 0.98;
-  }
-  draw() {
-    ctx.save();
-    ctx.globalAlpha = this.life / 110;
-    ctx.fillStyle = `hsl(${this.hue}, 100%, 65%)`;
-    ctx.shadowBlur = 25;
-    ctx.shadowColor = `hsl(${this.hue}, 100%, 80%)`;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-}
-
-let particles = [];
-
-function createExplosion(x, y, count) {
-  for (let i = 0; i < count; i++) {
-    particles.push(new Particle(x, y));
-  }
-}
-
-function animate() {
-  ctx.fillStyle = 'rgba(10, 0, 5, 0.12)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  for (let i = particles.length - 1; i >= 0; i--) {
-    particles[i].update();
-    particles[i].draw();
-    if (particles[i].life <= 0) particles.splice(i, 1);
-  }
-  requestAnimationFrame(animate);
-}
-animate();
-
-// ==================== ВЗРЫВ ====================
-document.getElementById('btn').addEventListener('click', function(e) {
-  const rect = this.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-
-  document.body.classList.add('exploding');
-
-  // Мощный взрыв из кнопки
-  createExplosion(centerX, centerY, 420);
-
-  // Дополнительные вспышки по всему экрану
-  setTimeout(() => createExplosion(canvas.width * 0.3, canvas.height * 0.4, 180), 80);
-  setTimeout(() => createExplosion(canvas.width * 0.7, canvas.height * 0.6, 220), 160);
-  setTimeout(() => createExplosion(canvas.width * 0.5, canvas.height * 0.2, 150), 300);
-
-  // Через 3 секунды — переход
-  setTimeout(() => {
-    window.open('https://t.me/electrum_store', '_blank');
-  }, 3000);
-});
+    setTimeout(() => {
+      window.open('https://t.me/electrum_store', '_blank');
+    }, 3000);
+  });
 </script>
 
 </body>
