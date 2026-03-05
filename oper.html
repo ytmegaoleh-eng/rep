@@ -9,7 +9,7 @@
     
     body {
       min-height: 100vh;
-      background: #000 url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=90') center/cover fixed;
+      background: #000 url('bg.jpg') center/cover no-repeat fixed;
       font-family: 'Courier New', monospace;
       color: white;
       display: flex;
@@ -27,110 +27,58 @@
     }
 
     .title {
-      font-size: clamp(4.8rem, 18vw, 9.5rem);
+      font-size: clamp(4.8rem, 19vw, 10rem);
       font-weight: 900;
-      letter-spacing: 0.08em;
-      text-shadow: 0 0 40px #00ffff, 0 0 80px #ff00aa, 0 0 120px #ff2200;
-      margin-bottom: 20px;
+      letter-spacing: 0.06em;
+      text-shadow: 0 0 50px #00ffff, 0 0 90px #ff00aa, 0 0 140px #ff2200;
+      margin-bottom: 15px;
     }
 
     .subtitle {
-      font-size: clamp(1.8rem, 7vw, 3.2rem);
-      margin-bottom: 60px;
+      font-size: clamp(1.9rem, 7.5vw, 3.4rem);
+      margin-bottom: 65px;
       color: #ff0044;
-      text-shadow: 0 0 40px #ff0044;
-      letter-spacing: 0.4em;
+      text-shadow: 0 0 45px #ff0044;
+      letter-spacing: 0.45em;
     }
 
     .btn {
       width: 92%;
       max-width: 420px;
-      margin: 0 auto;
-      padding: 28px 40px;
-      font-size: clamp(2.4rem, 8.5vw, 4.2rem);
+      margin: 0 auto 30px;
+      padding: 32px 40px;
+      font-size: clamp(2.6rem, 9vw, 4.5rem);
       font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.4em;
+      letter-spacing: 0.42em;
       color: #fff;
       background: linear-gradient(135deg, #ff2200, #ff6600, #ffaa00);
-      border: 6px solid #ffdd00;
-      border-radius: 30px;
-      box-shadow: 0 0 60px #ff2200, 0 0 120px #ff6600;
+      border: 7px solid #ffdd00;
+      border-radius: 32px;
+      box-shadow: 0 0 70px #ff2200, 0 0 140px #ff6600;
       cursor: pointer;
-      transition: all 0.3s;
     }
 
     .btn:active {
-      transform: scale(0.92);
+      transform: scale(0.9);
     }
 
-    /* === ЖЁСТКИЙ АГРЕССИВНЫЙ ВЗРЫВ === */
+    /* ЖЁСТКИЙ АГРЕССИВНЫЙ ВЗРЫВ */
     body.explode::after {
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, #ffff00 5%, #ff8800 25%, #ff2200 45%, #000 75%);
+      background: radial-gradient(circle at center, #ffff00 8%, #ff8800 28%, #ff2200 50%, #000 80%);
       z-index: 100;
-      animation: hardExplosion 2.8s forwards;
+      animation: hardExplosion 2.9s forwards;
       pointer-events: none;
     }
 
     @keyframes hardExplosion {
-      0%   { opacity: 0; transform: scale(0.2); }
-      12%  { opacity: 1; transform: scale(1.8); }
-      45%  { opacity: 0.95; transform: scale(3.2); }
-      100% { opacity: 0; transform: scale(5.5); }
+      0%   { opacity: 0; transform: scale(0.1); }
+      14%  { opacity: 1; transform: scale(2.1); }
+      48%  { opacity: 0.97; transform: scale(3.6); }
+      100% { opacity: 0; transform: scale(6); }
     }
 
     body.explode {
-      animation: hardShake 0.9s cubic-bezier(0.36,0.07,0.19,0.97) both;
-    }
-
-    @keyframes hardShake {
-      10%, 90% { transform: translate3d(-6px, 0, 0); }
-      20%, 80% { transform: translate3d(8px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-12px, 0, 0); }
-      40%, 60% { transform: translate3d(12px, 0, 0); }
-    }
-
-    .container.explode {
-      animation: meltHard 2.8s forwards;
-    }
-
-    @keyframes meltHard {
-      0%   { filter: brightness(1); transform: scale(1); }
-      35%  { filter: brightness(0.3) contrast(3) hue-rotate(50deg); transform: scale(1.15) translateY(-30px); }
-      100% { filter: brightness(0) contrast(0); transform: scale(0.5) translateY(150px); opacity: 0; }
-    }
-
-    .link-info {
-      margin-top: 50px;
-      font-size: 1.4rem;
-      color: #00ffff;
-      text-shadow: 0 0 20px #00ffff;
-    }
-  </style>
-</head>
-<body>
-
-<div class="container" id="container">
-  <h1 class="title">DARK SMS</h1>
-  <div class="subtitle">OPERATOR ONLINE</div>
-  <div class="btn" id="btn">OPERATOR</div>
-  <div class="link-info">t.me/electrum_store • HR Electrum PL</div>
-</div>
-
-<script>
-  document.getElementById('btn').addEventListener('click', function() {
-    const container = document.getElementById('container');
-    document.body.classList.add('explode');
-    container.classList.add('explode');
-
-    setTimeout(() => {
-      window.open('https://t.me/electrum_store', '_blank');
-    }, 2900);
-  });
-</script>
-
-</body>
-</html>
